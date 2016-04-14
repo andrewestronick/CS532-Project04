@@ -21,10 +21,11 @@ public:
     ~Graph();
     void addEdge(const Edge &e);
     std::vector<Edge> getAdjecentList(int v);
-    Edge getEdge(int v1, int v2);
+    Edge* getEdge(int v1, int v2);
     int getNumVertices(void) const;
     int getNumEdges(void) const;
     void insertNode(int vertex, Node *node);
+    bool edgeExist(int v1, int v2);
 
 private:
 

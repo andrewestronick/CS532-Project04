@@ -5,11 +5,13 @@
 #ifndef MAZE_H
 #define MAZE_H
 
-#include<iostream>
-#include<cstdlib>
-#include<ctime>
-#include<string>
-#include"tree.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+#include "tree.h"
+#include "graph.h"
+#include "edge.h"
 
 struct Wall
 {
@@ -18,12 +20,12 @@ struct Wall
     bool up;
 };
 
-class maze
+class Maze
 {
 public:
 
-    maze(int size);
-    ~maze();
+    Maze(int size);
+    ~Maze();
     void printMaze(bool pierceCollege);
     void printWallList(void);
     void randomizeMaze(void);
@@ -35,6 +37,7 @@ private:
     int wallSize;
     tree *cell;
     Wall *wall;
+    Graph *graph;
 
     void addWall(int index, int front, int back);
     bool checkWall(int front, int back);
@@ -42,6 +45,7 @@ private:
     void printhorizontalEdge(void);
     void printLeft(bool PierceCollege, bool start);
     void swapWall(int firstWall, int secondWall);
+    void initGraph(void);
 };
 
 #endif // MAZE_H

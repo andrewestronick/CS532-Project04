@@ -72,7 +72,7 @@ std::vector<Edge> Graph::getAdjecentList(int v)
 }
 
 
-Edge Graph::getEdge(int v1, int v2)
+Edge *Graph::getEdge(int v1, int v2)
 {
     if(nullptr == vertices[v1])
         return nullptr;
@@ -82,7 +82,7 @@ Edge Graph::getEdge(int v1, int v2)
     while(ptr->next != nullptr)
     {
         if(ptr->edge->getEnd() == v2)
-            return Edge(ptr->edge);
+            return new Edge(ptr->edge);
 
         ptr = ptr->next;
     }
@@ -117,4 +117,24 @@ void Graph::insertNode(int vertex, Node *node)
         ptr->next = node;
     }
     ++edges;
+}
+
+
+bool Graph::edgeExist(int v1, int v2)
+{
+    if(nullptr == vertices[v1])
+        return false;
+
+    Node *ptr = vertices[v1];
+
+    while(ptr->next != nullptr)
+    {
+        if(ptr->edge->getEnd() == v2)
+
+            return true;
+
+        ptr = ptr->next;
+    }
+
+    return false;
 }

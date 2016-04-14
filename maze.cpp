@@ -4,26 +4,28 @@
 
 #include "maze.h"
 
-maze::maze(int size)
+Maze::Maze(int size)
 {
     this->size = size;
     wallSize = (2 * size * size) - (2 * size);
 
     cell = new tree(size * size);
     wall = new Wall[wallSize];
+    graph = new Graph(size * size, false, false);
 
     initWall();
 }
 
 
-maze::~maze()
+Maze::~Maze()
 {
     delete cell;
     delete wall;
+    delete graph;
 }
 
 
-void maze::printMaze(bool pierceCollege)
+void Maze::printMaze(bool pierceCollege)
 {
     const std::string destination = "Computer Class";
 
@@ -57,14 +59,14 @@ void maze::printMaze(bool pierceCollege)
 }
 
 
-void maze::printWallList(void)
+void Maze::printWallList(void)
 {
     for(int i=0; i < wallSize; ++i)
         std::cout << "Wall #" << (i + 1) << " (" << wall[i].front << ", " << wall[i].back << ") " << (wall[i].up ? "UP" : "DOWN") << std::endl;
 }
 
 
-void maze::randomizeMaze()
+void Maze::randomizeMaze()
 {
     shuffleWall();
 
@@ -74,10 +76,11 @@ void maze::randomizeMaze()
             cell->wunion(wall[i].front, wall[i].back);
             wall[i].up = false;
         }
+    initGraph();
 }
 
 
-void maze::shuffleWall(void)
+void Maze::shuffleWall(void)
 {
     std::srand(std::time(0));
 
@@ -86,7 +89,7 @@ void maze::shuffleWall(void)
 }
 
 
-void maze::addWall(int index, int front, int back)
+void Maze::addWall(int index, int front, int back)
 {
         wall[index].front = front;
         wall[index].back = back;
@@ -94,7 +97,7 @@ void maze::addWall(int index, int front, int back)
 }
 
 
-bool maze::checkWall(int front, int back)
+bool Maze::checkWall(int front, int back)
 {
     for(int i = 0; i < wallSize; ++i)
         if((wall[i].front == front && wall[i].back == back ) || (wall[i].front == back && wall[i].back == front))
@@ -104,7 +107,7 @@ bool maze::checkWall(int front, int back)
 }
 
 
-void maze::initWall(void)
+void Maze::initWall(void)
 {
     for (int i = 0, j, k = 0; i < ((size * size) - 1); ++i)
     {
@@ -119,7 +122,7 @@ void maze::initWall(void)
 }
 
 
-void maze::printhorizontalEdge(void)
+void Maze::printhorizontalEdge(void)
 {
     for(int i = 0; i < size; ++i)
         std::cout << "+--";
@@ -128,7 +131,7 @@ void maze::printhorizontalEdge(void)
 }
 
 
-void maze::printLeft(bool pierceCollege, bool start)
+void Maze::printLeft(bool pierceCollege, bool start)
 {
     const std::string startLocation = "Pierce College Parking Lot";
     const std::string space = std::string(startLocation.length(), ' ');
@@ -140,7 +143,7 @@ void maze::printLeft(bool pierceCollege, bool start)
 }
 
 
-void maze::swapWall(int firstWall, int secondWall)
+void Maze::swapWall(int firstWall, int secondWall)
 {
     Wall tempWall;
 
@@ -155,4 +158,12 @@ void maze::swapWall(int firstWall, int secondWall)
     wall[secondWall].front = tempWall.front;
     wall[secondWall].back = tempWall.back;
     wall[secondWall].up = tempWall.up;
+}
+
+
+void Maze::initGraph()
+{
+    for(int i = 0; i < wallSize; ++i)
+        if(!wall[i].up && !graph->edgeExist(wall[i].front, wall[i].back) && !graph->edgeExist(wall[i].back, wall[i].front))
+                graph->addEdge(Edge(wall[i].front, wall[i].back));
 }
