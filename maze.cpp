@@ -102,8 +102,8 @@ void Maze::solveMaze()
     rdfs(0, visit);
 
     std::cout << "Solution: ";
-    for(int i : solution)
-        std::cout << i << " ";
+    for(int i = solution.size() - 1; i >= 0; --i)
+        std::cout << solution[(unsigned) i] << " ";
 
     std::cout << std::endl;
 }
