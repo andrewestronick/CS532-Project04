@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <vector>
 #include "tree.h"
 #include "graph.h"
 #include "edge.h"
@@ -30,6 +31,8 @@ public:
     void printWallList(void);
     void randomizeMaze(void);
     void shuffleWall(void);
+    void solveMaze(void);
+    bool rdfs(int v, bool *visit);
 
 private:
 
@@ -38,6 +41,7 @@ private:
     tree *cell;
     Wall *wall;
     Graph *graph;
+    std::vector<int> solution;
 
     void addWall(int index, int front, int back);
     bool checkWall(int front, int back);

@@ -89,6 +89,46 @@ void Maze::shuffleWall(void)
 }
 
 
+void Maze::solveMaze()
+{
+    initGraph();
+
+    bool visit[size * size];
+    for(int i = 0; i < size * size; ++i)
+        visit[i] = false;
+
+    solution.clear();
+
+    rdfs(0, visit);
+
+    std::cout << "Solution: ";
+    for(int i : solution)
+        std::cout << i << " ";
+
+    std::cout << std::endl;
+}
+
+bool Maze::rdfs(int v, bool *visit)
+{
+    bool flag = (v == size * size - 1);
+    visit[v] = true;
+
+    std::vector<Edge> list = graph->getAdjecentList(v);
+    for(Edge e : list)
+    {
+        if(visit[e.getEnd()])
+            continue;
+        if(rdfs(e.getEnd(), visit))
+           flag = true;
+    }
+
+    if(flag)
+        solution.push_back(v);
+
+    return flag;
+}
+
+
 void Maze::addWall(int index, int front, int back)
 {
         wall[index].front = front;
