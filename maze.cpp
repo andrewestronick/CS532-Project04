@@ -27,7 +27,7 @@ Maze::~Maze()
 
 void Maze::printMaze(bool pierceCollege)
 {
-    const std::string destination = "Computer Class";
+    const std::string destination = "";
 
     printLeft(pierceCollege,false);
     printhorizontalEdge();
